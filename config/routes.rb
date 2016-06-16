@@ -3,13 +3,24 @@ Rails.application.routes.draw do
   get "/" => "home#index", as: :root
   get "/about" => "home#about"
 
+  get "/posts/search" => "posts#search", as: :search
+
+  resources :posts do
+    resources :comments, only: [:create, :destroy]
+  end
+
+  # get "/comments/new" => "comments#new", as: :new_comment
+  # post "/comments" => "comments#create", as: :comments
+  # get "/comments/:id" => "comments#show", as: :comment
+  # get "/comments" => "comments#index"
+  # get "/comments/:id/edit" => "comments#edit", as: :edit_comment
+  # patch "/comments/:id" => "comments#update"
+  # delete "/comments/:id" => "comments#destroy"
+  # get "/comments/search" => "comments#search"
 
 
 
-
-
-
-
+  # get "/comments/new" => "comments#new"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

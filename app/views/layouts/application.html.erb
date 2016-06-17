@@ -11,13 +11,27 @@
   <%= link_to "Home", root_path %> |
   <%= link_to "About", about_path	%> |
   <%= link_to "All Blogs", posts_path %> |
-  <%= link_to "New Post", new_post_path %>
+  <%= link_to "New Post", new_post_path %> |
+  <% if user_signed_in? %>
+      Hello, <%= link_to "#{current_user.first_name}", edit_user_path(session[:user_id])%> |
+      <%= link_to "Sign Out", sessions_path, method: :delete %> |
+    <% else %>
+      <%= link_to "Sign Up", new_user_path %> |
+      <%= link_to "Sign In", new_session_path %>
+    <% end %>
   <%= form_tag(search_path, :method => "get", id: "search-form") do %>
   <%= text_field_tag :search, params[:search], placeholder: "Search Requests by Name/Email/Department or Message" %>
   <%= submit_tag "Search" %>
   <% end %>
     <hr>
   </div>
+  <div>
+  <% if flash[:notice] %>
+    <div class="flash-notice"> <%= flash[:notice] %></div>
+  <% elsif flash[:alert] %>
+    <div class="flash-alert"> <%= flash[:alert] %></div>
+  <% end %>
+</div>
   <br>
 <%= yield %>
 

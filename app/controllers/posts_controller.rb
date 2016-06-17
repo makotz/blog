@@ -5,7 +5,6 @@ class PostsController < ApplicationController
   end
 
   def create
-    post_params = params.require(:post).permit(:title, :body)
     @post = Post.new post_params
     if @post.save
       redirect_to post_path(@post)
@@ -29,7 +28,6 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find params[:id]
-    post_params = params.require(:post).permit(:title, :body)
     if @post.update post_params
       redirect_to posts_path(@post)
     else
@@ -44,7 +42,13 @@ class PostsController < ApplicationController
   end
 
   def search
-    @posts = Post.search(params[:search]).paginate(:page => params[:page], :per_page => 7)
+    @posts = Post.search(params[:search]).paginate(:page => params[:page], :per_page => 10)
+  end
+
+  private
+
+  def post_params
+    params.require(:post).permit(:title, :body)
   end
 
 end

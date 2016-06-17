@@ -5,8 +5,17 @@ Rails.application.routes.draw do
 
   get "/posts/search" => "posts#search", as: :search
 
+  resources :sessions, only: [:new, :create] do
+    delete :destroy, on: :collection
+  end
+
+  post "/users/reset" => "users#reset", as: :reset
+  post "/users/reset/:id" => "users#reset"
+  resources :users, only: [:new, :create, :edit, :update]
+
+
   resources :posts do
-    resources :comments, only: [:create, :destroy]
+    resources :comments, only: [:create, :destroy], shallow: true
   end
 
   # get "/comments/new" => "comments#new", as: :new_comment

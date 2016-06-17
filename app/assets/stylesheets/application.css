@@ -3,10 +3,13 @@
 }
 
 body {
-font-family: Futura,"Trebuchet MS",Arial,sans-serif
+font-family: Futura,"Trebuchet MS",Arial,sans-serif;
+background-color: #F5F5F5;
 }
 
-
+h1 {
+text-align: center;
+}
 
 
 

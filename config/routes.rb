@@ -9,8 +9,9 @@ Rails.application.routes.draw do
     delete :destroy, on: :collection
   end
 
-  post "/users/reset" => "users#reset", as: :reset
-  post "/users/reset/:id" => "users#reset"
+  get "/users/reset/:id" => "users#edit_password", as: :reset
+  patch "/users/reset/:id" => "users#update_password"
+  get "/users/forgot/" => "users#forgot_password", as: :forgot
   resources :users, only: [:new, :create, :edit, :update]
 
 

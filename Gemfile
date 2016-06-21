@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'cancancan'
 gem 'rails-erd'
 gem 'will_paginate'
 gem 'interactive_editor'

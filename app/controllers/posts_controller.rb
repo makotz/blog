@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  before_action :authorize_owner, only: [:edit, :destroy, :update]
+  before_action :authenticate_user!, only: [:new]
 
   def new
     @post = Post.new
@@ -6,6 +8,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new post_params
+    @post.user_id = current_user.id
     if @post.save
       redirect_to post_path(@post)
     else
@@ -48,7 +51,17 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title, :body, :user_id, :category_id)
+  end
+
+  def authorize_owner
+    unless can? :manage, @post
+      redirect_to root_path, alert: "Access denied. Please sign in first."
+    end
+  end
+
+  def authenticate_user!
+    redirect_to root_path, alert: "please sign in" unless user_signed_in?
   end
 
 end

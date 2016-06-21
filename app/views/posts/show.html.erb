@@ -1,7 +1,12 @@
 <h1><%= @post.title %></h1>
+<h3>By <%= User.find(@post.user_id).first_name %></h3><br>
 <%= @post.body %><br><br>
+
+
+<% if can? :manage, @post %>
 <%= link_to "Edit", edit_post_path %>
 <%= link_to "Delete", post_path(@post), method: :delete, data: {confirm: "Are you sure you want to delete this post?"}%>
+<% end %>
 <hr>
 
 <%= form_for [@post, @comment] do |c| %>
@@ -14,7 +19,10 @@
 <hr>
 <h3>Recent Comments</h3>
   <%= @post.comments('comments.created_at DESC').each do |com| %>
-    <%= com.body %>
+    <%= com.body %><br>
+    <%#= User.find(com.user_id).first_name %>
+    <% if can? :manage, @comment %>
     <%= link_to "Delete", comment_path(com), method: :delete, data:{confirm: "Are you sure?"} %>
+    <% end %>
     <hr>
   <% end %>

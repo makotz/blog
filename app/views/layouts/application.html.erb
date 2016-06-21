@@ -8,16 +8,7 @@
 </head>
 <body>
   <%= render "/layouts/navbar" %>
-  </div>
-  <div>
-  <% if flash[:notice] %>
-    <div class="flash-notice"> <%= flash[:notice] %></div>
-  <% elsif flash[:alert] %>
-    <div class="flash-alert"> <%= flash[:alert] %></div>
-  <% end %>
-</div>
-  <br>
-<%= yield %>
-
+  <%= render "/layouts/noticealert" %>
+  <%= yield %>
 </body>
 </html>

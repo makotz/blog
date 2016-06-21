@@ -5,12 +5,13 @@ class UsersController < ApplicationController
   end
 
   def create
-    user_params = params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
     @user = User.new user_params
     if @user.save
+      sign_in(@user)
       redirect_to root_path, notice: "Success!"
     else
-      redirect_to new_user_path, alert: "Unsuccessful!"
+      flash[:alert]= "Unsuccessful!"
+      render new_user_path
     end
   end
 
@@ -20,46 +21,34 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find_by_id(session[:user_id])
-      if edit_account
-        if @user.update user_params
+    if @user.update user_params
           redirect_to root_path, notice: "Account Info Updated"
         else
           render :edit
         end
-      elsif password_original? && password_diff? && password_correct?
-        @user.update user_params
-        redirect_to root_path, notice: "Password Updated"
-      else
-        render :edit, notice: "Password could not be updated"
-      end
   end
 
-  def reset
+  def edit_password
     @user = User.find_by_id(session[:user_id])
+  end
+
+  def update_password
+    @user = User.find_by_id(session[:user_id])
+    if @user.authenticate(user_params[:current_password]) && @user.authenticate(user_params[:password]) == false
+      @user.update(password: user_params[:password], password_confirmation: user_params[:password_confirmation])
+      redirect_to root_path, notice: "Password Info Updated"
+        else
+        render :edit_password, alert: "Unsuccessful!"
+        end
+  end
+
+  def forgot_password
   end
 
   private
 
-  def edit_account
-    params.require(:user).permit(:first_name) != "" ||
-    params.require(:user).permit(:last_name) != "" ||
-    params.require(:user).permit(:email) != ""
-  end
-
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
-  end
-
-  def password_correct?
-      params[:current_password] == session[:user_id].password
-  end
-
-  def password_diff?
-    params.require(:user).permit(:password) == params.require(:user).permit(:password_confirmation)
-  end
-
-  def password_original?
-    params.require(:user).permit(:password) != session[:user_id].password
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password)
   end
 
 end

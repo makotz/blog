@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
+  before_action :find_post, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:show, :index]
   before_action :authorize_owner, only: [:edit, :destroy, :update]
-  before_action :authenticate_user!, only: [:new]
 
   def new
     @post = Post.new
@@ -17,7 +18,6 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find params[:id]
     @comment = Comment.new
   end
 
@@ -26,11 +26,10 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = Post.find params[:id]
   end
 
   def update
-    @post = Post.find params[:id]
+    @post.slug = nil
     if @post.update post_params
       redirect_to posts_path(@post)
     else
@@ -39,13 +38,12 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find params[:id]
     @post.destroy
     redirect_to posts_path
   end
 
   def search
-    @posts = Post.search(params[:search]).paginate(:page => params[:page], :per_page => 10)
+    @posts = Post.friendly.search(params[:search]).paginate(:page => params[:page], :per_page => 10)
   end
 
   private
@@ -56,12 +54,12 @@ class PostsController < ApplicationController
 
   def authorize_owner
     unless can? :manage, @post
-      redirect_to root_path, alert: "Access denied. Please sign in first."
+      redirect_to new_session_path, alert: "Access denied. Please sign in first."
     end
   end
 
-  def authenticate_user!
-    redirect_to root_path, alert: "please sign in" unless user_signed_in?
+  def find_post
+    @post = Post.friendly.find(params[:id])
   end
 
 end

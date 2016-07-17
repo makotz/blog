@@ -1,10 +1,6 @@
-
 <%= @comment.errors.full_messages.join(", ") %>
 
-<%= form_for @comment do |f| %>
-  <div>
-    <%= f.label :body %>:<br>
-    <%= f.text_area :body %>
-  </div>
-  <%= f.submit %>
+<%= simple_form_for @comment do |f| %>
+    <%= f.input :body %>
+    <%= f.submit({class: "btn btn-primary"}) %>
 <% end %>

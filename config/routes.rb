@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  resources :users
+  get 'password_resets/new'
+
   get "/" => "home#index", as: :root
   get "/about" => "home#about"
 
@@ -16,8 +19,12 @@ Rails.application.routes.draw do
 
 
   resources :posts do
+    resources :favorites, only: [:create, :destroy]
     resources :comments, only: [:create, :destroy], shallow: true
   end
+
+  resources :favorites, only: [:index]
+  resources :password_resets
 
   # get "/comments/new" => "comments#new", as: :new_comment
   # post "/comments" => "comments#create", as: :comments

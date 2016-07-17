@@ -1,4 +1,4 @@
-<h1>A list of All the Blogs</h1><hr>
+<h1>All Blog Posts</h1><hr>
 <% @posts.each do |post| %>
 <%= link_to post.title, post_path(post) %>
 <div style = "text-align: right"><%= post[:updated_at]%></div>

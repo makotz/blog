@@ -13,79 +13,11 @@
  * file per style scope.
  *
  *= require_tree .
+ *= require bootstrap_and_overrides
  *= require_self
  */
- .field_with_errors  {
-   display: inline-block;
- }
+ /*@import "bootstrap-sprockets";*/
 
- .field_with_errors input {
-   border-color: red;
- }
  body {
-   font-family: Futura,"Trebuchet MS",Arial,sans-serif;
    background-image: url("asanoha.png");
- }
-
- h1 {
-   text-align: center;
- }
-
- .alert {
-   background-color: red
- }
-
- ul {
-   list-style-type: none;
-   margin: 0;
-   padding: 0;
-   overflow: hidden;
-   background-color: #686868;
-   box-shadow: 3px 3px 3px #888888;
-   border-radius: 4px;
- }
-
- li {
-   float: left;
- }
-
- li.greeting {
-   color: white;
-   text-align: center;
-   padding: 14px 16px;
-   text-decoration: none;
-   font-size: 20px;
- }
-
- li a {
-   display: block;
-   color: white;
-   text-align: center;
-   padding: 14px 16px;
-   text-decoration: none;
-   font-size: 20px;
- }
-
- form#search-form {
-   display: block;
-   color: white;
-   text-align: right;
-   padding: 14px 16px;
-   text-decoration: none;
-   font-size: 20px;
- }
- /* Change the link color to #111 (black) on hover */
- li a:hover {
-   background-color: #66CCFF;
-   color: #686868;
- }
-
- div.flash-alert {
-   margin-top: 10px;
-   padding-top: 13px;
-   padding-bottom: 13px;
-   text-align: center;
-   background-color: #FF4500;
-   color: white;
-   font-size: 25px;
  }

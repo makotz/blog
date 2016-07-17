@@ -1,5 +1,12 @@
 source 'https://rubygems.org'
 
+gem 'simple_form'
+gem 'friendly_id'
+gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootswatch-rails'
+gem 'handlebars_assets'
+gem 'autoprefixer-rails'
+gem 'bootstrap-glyphicons'
 gem 'cancancan'
 gem 'rails-erd'
 gem 'will_paginate'

@@ -1,7 +1,15 @@
 <h1>Search Results</h1><hr>
-<% @posts.each do |post| %>
-<%= link_to post.title, post_path(post) %>
-<div style = "text-align: right"><%= post[:updated_at]%></div>
-<hr>
+<% if @posts != [] %>
+  <% @posts.each do |post| %>
+    <%= link_to post.title, post_path(post) %>
+    <div style = "text-align: right">
+      <%= post[:updated_at]%>
+    </div>
+    <hr>
+  <% end %>
+  <%= will_paginate @posts %>
+<% else %>
+  <div style = "text-align: center">
+    Sorry, no matches found :(
+  </div>
 <% end %>
-<%= will_paginate @posts %>

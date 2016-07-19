@@ -1,15 +1,43 @@
 Rails.application.routes.draw do
 
+  resources :users
+  get 'password_resets/new'
+
   get "/" => "home#index", as: :root
   get "/about" => "home#about"
 
+  get "/posts/search" => "posts#search", as: :search
+
+  resources :sessions, only: [:new, :create] do
+    delete :destroy, on: :collection
+  end
+
+  get "/users/reset/:id" => "users#edit_password", as: :reset
+  patch "/users/reset/:id" => "users#update_password"
+  get "/users/forgot/" => "users#forgot_password", as: :forgot
+  resources :users, only: [:new, :create, :edit, :update]
+
+
+  resources :posts do
+    resources :favorites, only: [:create, :destroy]
+    resources :comments, only: [:create, :destroy], shallow: true
+  end
+
+  resources :favorites, only: [:index]
+  resources :password_resets
+
+  # get "/comments/new" => "comments#new", as: :new_comment
+  # post "/comments" => "comments#create", as: :comments
+  # get "/comments/:id" => "comments#show", as: :comment
+  # get "/comments" => "comments#index"
+  # get "/comments/:id/edit" => "comments#edit", as: :edit_comment
+  # patch "/comments/:id" => "comments#update"
+  # delete "/comments/:id" => "comments#destroy"
+  # get "/comments/search" => "comments#search"
 
 
 
-
-
-
-
+  # get "/comments/new" => "comments#new"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

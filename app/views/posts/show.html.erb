@@ -1,0 +1,35 @@
+<h1><%= @post.title %></h1>
+<h3>By <%= @post.user.first_name %></h3><br>
+<% if @post.category != nil %>
+<h4>Category : <%= @post.category.name %></h4>
+<% end %>
+<%= @post.body %><br>
+
+<% if can? :manage, @post %>
+<%= link_to "Edit", edit_post_path %>
+<%= link_to "Delete", post_path(@post), method: :delete, data: {confirm: "Are you sure you want to delete this post?"}%>
+<% end %>
+
+<% if user_signed_in? %>
+  <div id="favorite">
+    <%= render "/favorites/favorite" %>
+  </div>
+<% end %>
+
+
+<hr>
+
+<%= form_for [@post, @comment], remote: true do |c| %>
+<div>
+<%= c.text_area :body%>
+</div>
+<%= c.submit %>
+<% end %>
+
+<hr>
+<h4>Recent Comments</h4>
+<div id="comments">
+  <% @post.comments.order(created_at: :desc).each do |com| %>
+    <%= render "/comments/comment", comment: com %>
+  <% end %>
+</div>

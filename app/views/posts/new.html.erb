@@ -1,0 +1,9 @@
+
+<%= @post.errors.full_messages.join(", ") %>
+
+<%= simple_form_for @post do |f| %>
+    <%= f.input :title %>
+    <%= f.input :body %>
+    <%= f.collection_select :category_id, Category.all, :id, :name %>
+    <%= f.submit({class: "btn btn-primary"}) %>
+<% end %>
